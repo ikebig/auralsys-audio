@@ -2,16 +2,14 @@
 {
     public class Device
     {
-        string _name;       
-        public Device(int index, string name, bool isLoopback)
+        private readonly string _name;       
+        public Device(int index, string name)
         {
             Index = index;
-            _name = name;
-            IsLoopback = isLoopback;           
+            _name = name;           
         }
 
         public int Index { get; }
-        public bool IsLoopback { get; }
         public override string ToString() => _name;
     }
 }

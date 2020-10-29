@@ -33,7 +33,7 @@ namespace Auralsys.Audio
         #region Recordings
 
         /// <summary>
-        /// Records from source and returns the recorded byte samples
+        /// Records from device and returns the recorded byte samples
         /// </summary>
         /// <param name="duration"></param>
         /// <param name="cancellationToken"></param>
@@ -64,7 +64,7 @@ namespace Auralsys.Audio
             long totalBytesToRead = (long)(duration.TotalSeconds * Format.Channels * Format.SampleRate * Format.BitDepth.GetBlockAlign());
             bool faulted = false;
 
-            DataAvailableHandler aggregation = (args) =>
+            void aggregation(DataAvailableArgs args)
             {
                 try
                 {
@@ -86,7 +86,7 @@ namespace Auralsys.Audio
                     Trace.TraceError($"Recording error from device '{Device}'. {ex.Message}", ex);
                     faulted = true;
                 }
-            };
+            }
 
             DataAvailable += aggregation;
             while (Status == RecorderState.Playing && totalBytesRead < totalBytesToRead && !faulted && !cancellationToken.IsCancellationRequested)
@@ -97,7 +97,7 @@ namespace Auralsys.Audio
         }
 
         /// <summary>
-        /// Records from source and returns byte array
+        /// Records from device and returns byte array
         /// </summary>
         /// <param name="duration"></param>
         /// <param name="cancellationToken"></param>
@@ -108,11 +108,11 @@ namespace Auralsys.Audio
             {
                 var samples = Record(duration, cancellationToken);
                 return samples;
-            });
+            }, cancellationToken);
         }
 
         /// <summary>
-        /// Writes byte samples to the provided stream
+        /// Records byte samples to the provided stream
         /// </summary>
         /// <param name="outStream"></param>
         /// <param name="duration"></param>
@@ -120,7 +120,7 @@ namespace Auralsys.Audio
         /// <returns></returns>
         public async Task RecordAsync(Stream outStream, TimeSpan duration, CancellationToken cancellationToken = default)
         {
-            await Task.Run(() => Record(outStream, duration, cancellationToken));
+            await Task.Run(() => Record(outStream, duration, cancellationToken), cancellationToken);
         }
 
         #endregion

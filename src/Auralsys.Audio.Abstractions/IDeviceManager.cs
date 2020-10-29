@@ -4,7 +4,7 @@ namespace Auralsys.Audio
 {
     public interface IDeviceManager
     {
-        IEnumerable<Device> GetInputDevices(bool includeLoopbackDevices = false);
+        IEnumerable<Device> GetInputDevices();
         IEnumerable<Device> GetOutputDevices();
         Device GetInputDevice(int index);
         Device GetInputDevice(string name);
