@@ -1,5 +1,4 @@
 ﻿using Auralsys.Audio;
-using Auralsys.Audio.ManagedBass.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
@@ -15,6 +14,7 @@ namespace Sample.Recording
             var serviceProvider = DependencyHelper.ServiceProvider;
             var deviceManager = serviceProvider.GetService<IDeviceManager>();
             var recorderFactory = serviceProvider.GetService<IRecorderFactory>();
+            var waveFileUtility = serviceProvider.GetService<IWaveFileUtility>();
 
             var inputDevices = deviceManager.GetInputDevices().ToArray();
             Console.WriteLine("\nInput Devices:");
@@ -23,10 +23,10 @@ namespace Sample.Recording
                 Console.WriteLine($"\t{dev.Index}: {dev}");
             }
 
-            int sampleRate = 41_000;
+            int sampleRate = 5512;
             int channels = 1;
             var duration = TimeSpan.FromMilliseconds(10_000);
-            var format = new Format(sampleRate, channels);
+            var format = new Format(sampleRate, channels, BitDepth.Bit_16);
             Console.WriteLine("\nEnter input device number:");
             int deviceIndex = -1;
 
@@ -39,10 +39,12 @@ namespace Sample.Recording
 
             using (var rec = recorderFactory.Create(inputDevices[deviceIndex], format))
             {
-                string path = Path.Combine("Recordings", $"device-{rec.Device.Index}.wav");
-
                 rec.Start();
-                var task = rec.RecordWaveFileAsync(path, duration);
+
+                string path = Path.Combine("Recordings", $"device-{rec.Device.Index}.wav");
+                                
+                //var task = rec.RecordWaveFileAsync(path, duration);
+                var task = rec.RecordAsync(duration);
 
                 var spinner = new ConsoleSpinner();
                 spinner.UpdateProgress();
@@ -51,6 +53,12 @@ namespace Sample.Recording
                     spinner.UpdateProgress();
                     Task.Delay(200).Wait();
                 }
+                
+                var bytes = task.Result;
+                var samples = AudioUtils.ConvertByteSamplesToFloat(bytes, format.BitDepth);                
+
+                //waveFileUtility.Write(path, bytes, rec.Format);
+                waveFileUtility.Write(path, samples, rec.Format);
 
                 rec.Stop();
             }

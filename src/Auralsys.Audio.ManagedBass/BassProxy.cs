@@ -5,8 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace Auralsys.Audio.ManagedBass
 {
@@ -106,13 +105,10 @@ namespace Auralsys.Audio.ManagedBass
                 case BitDepth.Bit_8:
                     bassFlags |= BassFlags.Byte;
                     break;
-                case BitDepth.Bit_32:
-                    bassFlags |= BassFlags.Float | BassFlags.Decode;
-                    break;
                 default: //default is 16-bit
                     break;
             }
-
+            
             Bass.RecordInit(device.Index);
             return Bass.RecordStart(format.SampleRate, format.Channels, bassFlags, Constants.Audio.Recording.SampleAggregationTimeoutMilliseconds, procedure);
         }
@@ -130,9 +126,9 @@ namespace Auralsys.Audio.ManagedBass
 
         public void WriteWaveFile(Stream stream, float[] samples, Format format)
         {
-            WaveFormat waveFormat = format.ToWaveFormat();
+            WaveFormat waveFormat = WaveFormat.CreateIeeeFloat(SampleRate: format.SampleRate, Channels: format.Channels);
             using var writer = new WaveFileWriter(stream, waveFormat);
-            writer.Write(samples, samples.Length);
+            writer.Write(samples, samples.Length * 4);
         }
 
         public void WriteWaveFile(Stream stream, short[] samples, Format format)
@@ -156,13 +152,18 @@ namespace Auralsys.Audio.ManagedBass
 
         public RecorderState GetRecorderState(int handle)
         {
-            var playbackState = Bass.ChannelIsActive(handle);
+            PlaybackState playbackState = Bass.ChannelIsActive(handle);
             if (playbackState != PlaybackState.Playing)
             {
                 return RecorderState.Stoped;
             }
 
             return RecorderState.Playing;
+        }
+       
+        public string GetLastError()
+        {
+            return Bass.LastError.ToString();
         }
 
         public void Dispose()

@@ -5,7 +5,6 @@ namespace Auralsys.Audio.ManagedBass
 {
     internal class Recorder : RecorderBase
     {
-        private int _handle;
         private byte[] _buffer;
 
         private readonly IBassProxy _bassProxy;
@@ -18,21 +17,22 @@ namespace Auralsys.Audio.ManagedBass
             : base(device, format)
         {
             _bassProxy = (IBassProxy)serviceProvider.GetService(typeof(IBassProxy));
-            _handle = _bassProxy.RecordInit(Device, Format, Procedure);
+            Source = _bassProxy.RecordInit(Device, Format, Procedure);
         }
-
-        public override RecorderState Status => _bassProxy.GetRecorderState(_handle);
+        
+        internal int Source { get; }
+        public override RecorderState Status => _bassProxy.GetRecorderState(Source);
 
         public override event DataAvailableHandler DataAvailable;
 
         public override bool Start()
         {
-            return _bassProxy.ChannelPlay(_handle);
+            return _bassProxy.ChannelPlay(Source);
         }
 
         public override bool Stop()
         {
-            return _bassProxy.ChannelStop(_handle);
+            return _bassProxy.ChannelStop(Source);
         }
 
         public override void Dispose()
@@ -43,12 +43,15 @@ namespace Auralsys.Audio.ManagedBass
         private bool Procedure(int handle, IntPtr buffer, int length, IntPtr user)
         {
             if (_buffer == null || _buffer.Length < length)
+            {
                 _buffer = new byte[length];
+            }
 
             Marshal.Copy(buffer, _buffer, 0, length);
             DataAvailable?.Invoke(new DataAvailableArgs(_buffer, length, Device, Format));
 
             return true;
         }
+        
     }
 }

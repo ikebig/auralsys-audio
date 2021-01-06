@@ -10,6 +10,6 @@ namespace Auralsys.Audio
             var path = fileInfo.FullName;
             string tempPath = path.Substring(0, path.Length - fileInfo.Extension.Length) + "." + Guid.NewGuid().ToString("N").Substring(0, 8) + ".tmp";
             return tempPath;
-        }
+        }        
     }
 }

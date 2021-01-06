@@ -3,8 +3,7 @@
     public enum BitDepth
     {
         Bit_8 = 8,
-        Bit_16 = 16,
-        Bit_32 = 32
+        Bit_16 = 16
     }
 
     public static class BitDepthExtensions

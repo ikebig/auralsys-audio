@@ -1,8 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Auralsys.Audio</RootNamespace>
+    <Authors>Ikechukwu Konweh</Authors>
+    <Company />
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ikebig/auralsys-audio</PackageProjectUrl>
+    <Description>Auralsys audio abstractions</Description>
+    <RepositoryUrl>https://github.com/ikebig/auralsys-audio</RepositoryUrl>
+    <PackageTags>audio,sound</PackageTags>
   </PropertyGroup>
 
 </Project>

@@ -20,6 +20,7 @@ namespace Auralsys.Audio.ManagedBass
         void WriteWaveFile(Stream stream, short[] samples, Format format);
         RecorderState GetRecorderState(int handle);
         bool ChannelPlay(int handle);
-        bool ChannelStop(int handle);
+        bool ChannelStop(int handle);  
+        string GetLastError();
     }
 }

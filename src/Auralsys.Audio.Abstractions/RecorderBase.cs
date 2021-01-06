@@ -68,6 +68,11 @@ namespace Auralsys.Audio
             {
                 try
                 {
+                    if (args.Length <= 0)
+                    {
+                        throw new AuralsysAudioException("Number of bytes read is negative or zero.");
+                    }
+
                     if (totalBytesRead < totalBytesToRead)
                     {
                         byte[] chunk = new byte[args.Length];

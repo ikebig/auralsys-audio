@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auralsys.Audio.Abstractions", "src\Auralsys.Audio.Abstractions\Auralsys.Audio.Abstractions.csproj", "{F65CC939-F5B3-4999-A791-9ACEFFFAF959}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auralsys.Audio.ManagedBass", "src\Auralsys.Audio.ManagedBass\Auralsys.Audio.ManagedBass.csproj", "{0E9D0A6D-85BD-4FD8-8B8D-721CE4031A88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auralsys.Audio.ManagedBass", "src\Auralsys.Audio.ManagedBass\Auralsys.Audio.ManagedBass.csproj", "{0E9D0A6D-85BD-4FD8-8B8D-721CE4031A88}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{E96C71FC-E200-4F1D-B819-62B497EEB29E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Recording", "src\samples\Sample.Recording\Sample.Recording.csproj", "{6627ACEC-8B1C-4701-ADF8-43FCEC9BB26F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Recording", "src\samples\Sample.Recording\Sample.Recording.csproj", "{6627ACEC-8B1C-4701-ADF8-43FCEC9BB26F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

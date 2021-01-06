@@ -5,11 +5,11 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Auralsys.Audio.ManagedBass.Extensions
+namespace Auralsys.Audio.ManagedBass
 {
     public static class RecordBaseExtensions
     {
-        public static void RecordWaveFile(this RecorderBase recorder, Stream stream, TimeSpan duration, CancellationToken cancellationToken = default)
+        public static void WriteWaveFile(this RecorderBase recorder, Stream stream, TimeSpan duration, CancellationToken cancellationToken = default)
         {
             if (recorder == null || duration == TimeSpan.Zero)
             {
@@ -18,7 +18,7 @@ namespace Auralsys.Audio.ManagedBass.Extensions
 
             if (recorder.Status != RecorderState.Playing)
             {
-                throw new Exception($"Invalid {nameof(RecorderState)}.");
+                throw new BassException($"Invalid {nameof(RecorderState)}.");
             }
 
             long totalBytesRead = 0;
@@ -30,6 +30,11 @@ namespace Auralsys.Audio.ManagedBass.Extensions
             {
                 try
                 {
+                    if (args.Length <= 0)
+                    {
+                        throw new BassException("Number of bytes read is negative or zero.");
+                    }
+
                     if (totalBytesRead < totalBytesToRead)
                     {
                         byte[] chunk = new byte[args.Length];
@@ -59,14 +64,14 @@ namespace Auralsys.Audio.ManagedBass.Extensions
             writer.Dispose();
         }
 
-        public static void RecordWaveFile(this RecorderBase recorder, string path, TimeSpan duration, CancellationToken cancellationToken = default)
+        public static void WriteWaveFile(this RecorderBase recorder, string path, TimeSpan duration, CancellationToken cancellationToken = default)
         {
             var fileInfo = new FileInfo(path);
             string tempPath = CommonHelper.GetTemporaryFilePath(fileInfo);
 
             using (var stream = new FileStream(tempPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read))
             {
-                recorder.RecordWaveFile(stream, duration, cancellationToken);
+                recorder.WriteWaveFile(stream, duration, cancellationToken);
             }
 
             if (File.Exists(tempPath))
@@ -75,14 +80,14 @@ namespace Auralsys.Audio.ManagedBass.Extensions
             }
         }
 
-        public async static Task RecordWaveFileAsync(this RecorderBase recorder, string path, TimeSpan duration, CancellationToken cancellationToken = default)
+        public async static Task WriteWaveFileAsync(this RecorderBase recorder, string path, TimeSpan duration, CancellationToken cancellationToken = default)
         {
-            await Task.Run(() => recorder.RecordWaveFile(path, duration, cancellationToken), cancellationToken);
+            await Task.Run(() => recorder.WriteWaveFile(path, duration, cancellationToken), cancellationToken);
         }
 
-        public async static Task RecordWaveFileAsync(this RecorderBase recorder, Stream stream, TimeSpan duration, CancellationToken cancellationToken = default)
+        public async static Task WriteWaveFileAsync(this RecorderBase recorder, Stream stream, TimeSpan duration, CancellationToken cancellationToken = default)
         {
-            await Task.Run(() => recorder.RecordWaveFile(stream, duration, cancellationToken), cancellationToken);
+            await Task.Run(() => recorder.WriteWaveFile(stream, duration, cancellationToken), cancellationToken);
         }
 
     }
