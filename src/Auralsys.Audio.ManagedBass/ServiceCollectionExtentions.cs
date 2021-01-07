@@ -7,6 +7,8 @@ namespace Auralsys.Audio
     {
         public static IServiceCollection AddAuralsysAudioManagedBass(this IServiceCollection services)
         {
+            services.AddAuralsysAudioCore();
+
             services.AddSingleton<IBassProxy, BassProxy>();
             services.AddSingleton<IDeviceManager, DeviceManager>();
             services.AddSingleton<IRecorderFactory, RecorderFactory>();

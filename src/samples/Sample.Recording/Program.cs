@@ -15,6 +15,7 @@ namespace Sample.Recording
             var deviceManager = serviceProvider.GetService<IDeviceManager>();
             var recorderFactory = serviceProvider.GetService<IRecorderFactory>();
             var waveFileUtility = serviceProvider.GetService<IWaveFileUtility>();
+            var samplesConverter = serviceProvider.GetService<IAudioSamplesConverter>();
 
             var inputDevices = deviceManager.GetInputDevices().ToArray();
             Console.WriteLine("\nInput Devices:");
@@ -55,10 +56,7 @@ namespace Sample.Recording
                 }
                 
                 var bytes = task.Result;
-                var samples = AudioUtils.ConvertByteSamplesToFloat(bytes, format.BitDepth);                
-
-                //waveFileUtility.Write(path, bytes, rec.Format);
-                waveFileUtility.Write(path, samples, rec.Format);
+                waveFileUtility.Write(path, bytes, rec.Format);
 
                 rec.Stop();
             }

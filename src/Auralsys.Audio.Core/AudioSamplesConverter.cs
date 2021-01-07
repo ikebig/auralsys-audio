@@ -2,11 +2,11 @@
 
 namespace Auralsys.Audio
 {
-    public static class AudioUtils
+    public class AudioSamplesConverter : IAudioSamplesConverter
     {
-        #region Private Methods
+        #region Private Utils
 
-        private static float[] Convert8BitToFloat(byte[] input)
+        private float[] Convert8BitToFloat(byte[] input)
         {
             int inputSamples = input.Length; // 8 bit input, so 1 byte per sample
             float[] output = new float[inputSamples];
@@ -20,7 +20,7 @@ namespace Auralsys.Audio
             return output;
         }
 
-        private static float[] Convert16BitToFloat(byte[] input)
+        private float[] Convert16BitToFloat(byte[] input)
         {
             int inputSamples = input.Length / 2; // 16 bit input, so 2 bytes per sample
             float[] output = new float[inputSamples];
@@ -33,7 +33,7 @@ namespace Auralsys.Audio
             return output;
         }
 
-        private static float[] Convert24BitToFloat(byte[] input)
+        private float[] Convert24BitToFloat(byte[] input)
         {
             int inputSamples = input.Length / 3; // 24 bit input
             float[] output = new float[inputSamples];
@@ -50,8 +50,7 @@ namespace Auralsys.Audio
         }
 
         #endregion
-
-        public static float[] ConvertByteSamplesToFloat(byte[] input, BitDepth inputBitDepth)
+        public float[] ByteToFloat(byte[] input, BitDepth inputBitDepth)
         {
             float[] output;
             switch (inputBitDepth)
@@ -67,9 +66,9 @@ namespace Auralsys.Audio
             }
 
             return output;
-        }        
+        }
 
-        public static byte[] MonoToStereo(byte[] input)
+        public byte[] MonoToStereo(byte[] input)
         {
             byte[] output = new byte[input.Length * 2];
             int outputIndex = 0;
@@ -85,7 +84,7 @@ namespace Auralsys.Audio
             return output;
         }
 
-        public static byte[] StereoToMono(byte[] input)
+        public byte[] StereoToMono(byte[] input)
         {
             byte[] output = new byte[input.Length / 2];
             int outputIndex = 0;
@@ -98,7 +97,7 @@ namespace Auralsys.Audio
             return output;
         }
 
-        public static byte[] MixStereoToMono(byte[] input)
+        public byte[] MixStereoToMono(byte[] input)
         {
             byte[] output = new byte[input.Length / 2];
             int outputIndex = 0;
