@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Auralsys.Audio.ManagedBass\Auralsys.Audio.ManagedBass.csproj" />
+    <ProjectReference Include="..\..\Resony\Resony.csproj" />
   </ItemGroup>
 
   <ItemGroup>

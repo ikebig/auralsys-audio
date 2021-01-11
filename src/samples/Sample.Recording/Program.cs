@@ -1,5 +1,5 @@
-﻿using Auralsys.Audio;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Resony;
 using System;
 using System.IO;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace Sample.Recording
 
             int sampleRate = 5512;
             int channels = 1;
-            var duration = TimeSpan.FromMilliseconds(10_000);
+            var duration = TimeSpan.FromMilliseconds(12_000);
             var format = new Format(sampleRate, channels, BitDepth.Bit_16);
             Console.WriteLine("\nEnter input device number:");
             int deviceIndex = -1;
@@ -36,27 +36,28 @@ namespace Sample.Recording
                 Console.WriteLine("Please enter a valid input device number:");
             }
             Console.WriteLine($"{inputDevices.FirstOrDefault(x => x.Index == deviceIndex)}.");
-            Console.WriteLine();
+            Console.WriteLine();            
 
             using (var rec = recorderFactory.Create(inputDevices[deviceIndex], format))
             {
                 rec.Start();
 
-                string path = Path.Combine("Recordings", $"device-{rec.Device.Index}.wav");
-                                
-                //var task = rec.RecordWaveFileAsync(path, duration);
-                var task = rec.RecordAsync(duration);
+                string pathDisk = Path.Combine("Recordings", $"device-{rec.Device.Index}-record-to-disk.wav");
+                string pathMemory = Path.Combine("Recordings", $"device-{rec.Device.Index}-record-to-memory.wav");
+
+                var taskDisk = rec.RecordWaveFileAsync(pathDisk, duration);
+                var taskMemory = rec.RecordAsync(duration);
 
                 var spinner = new ConsoleSpinner();
                 spinner.UpdateProgress();
-                while (!task.IsCompleted)
+                while (!taskDisk.IsCompleted && !taskMemory.IsCompleted)
                 {
                     spinner.UpdateProgress();
                     Task.Delay(200).Wait();
                 }
-                
-                var bytes = task.Result;
-                waveFileUtility.Write(path, bytes, rec.Format);
+
+                var bytes = taskMemory.Result;
+                waveFileUtility.Write(pathMemory, bytes, rec.Format);
 
                 rec.Stop();
             }
