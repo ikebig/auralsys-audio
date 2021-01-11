@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>Ikechukwu Konweh</Authors>
+    <Description>Contains resony core audio library implementations</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/ikebig/resony</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/ikebig/resony</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Extensions\RecordBaseExtensions.cs~RF80fd7.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ManagedBass" Version="2.0.4" />
+    <PackageReference Include="ManagedBass.Mix" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Resony.Core\Resony.Core.csproj" />
+  </ItemGroup>
+
+</Project>

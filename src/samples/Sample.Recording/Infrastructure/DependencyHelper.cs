@@ -11,7 +11,7 @@ namespace Sample.Recording
         private static IServiceProvider Configure()
         {
             var services = new ServiceCollection();
-            services.AddAuralsysAudioManagedBass();
+            services.AddResony();
 
             var provider = services.CreateLightInjectServiceProvider();
             return provider;
