@@ -24,4 +24,4 @@ jobs:
     - name: Build nuget packages
       run: dotnet pack -c Release --no-restore --no-build
     - name: Push nuget packages
-      run: dotnet nuget push './src/**/*.nupkg' -k oy2fbbx7ehdy33ke762q7hpub3szzqkulogsl6r3ubmxhq -n true -s https://api.nuget.org/v3/index.json --skip-duplicate
+      run: dotnet nuget push './src/**/*.nupkg' -k ${{ secrets.NUGET_API_KEY }} -n true -s https://api.nuget.org/v3/index.json --skip-duplicate
