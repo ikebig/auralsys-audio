@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Resony
+namespace Resony.ManagedBass
 {
     public class DeviceManager : IDeviceManager
     {
@@ -28,7 +28,7 @@ namespace Resony
         }
         public Device GetInputDevice(string name)
         {
-            return GetInputDevice(name);
+            return _bassProxy.GetInputDevice(name);
         }
         public Device GetOutputDevice(int index)
         {

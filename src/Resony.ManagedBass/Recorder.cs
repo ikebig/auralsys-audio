@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WaveFileWriter = ManagedBass.WaveFileWriter;
 
-namespace Resony
+namespace Resony.ManagedBass
 {
     internal class Recorder : RecorderBase
     {
@@ -114,7 +114,11 @@ namespace Resony
             DataAvailable += aggregation;
             while (Status == RecorderState.Playing && totalBytesRead < totalBytesToRead && !forceExit && !cancellationToken.IsCancellationRequested)
             {
-                Task.Delay(Constants.Audio.Recording.SampleAggregationTimeoutMilliseconds, cancellationToken).Wait();
+                try
+                {
+                    Task.Delay(Constants.Audio.Recording.SampleAggregationTimeoutMilliseconds, cancellationToken).Wait();
+                }
+                catch (Exception) { }                
             }
             DataAvailable -= aggregation;
             writer.Dispose();
