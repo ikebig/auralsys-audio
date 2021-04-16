@@ -21,9 +21,7 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-    - name: Pack nuget packages      
+    - name: Pack nuget packages
       run: dotnet pack -c Release --no-restore --no-build
     - name: Deploy nuget packages
       run: dotnet nuget push './src/**/*.nupkg' -k ${{secrets.NUGET_API_KEY}} -n true -s https://api.nuget.org/v3/index.json --skip-duplicate
