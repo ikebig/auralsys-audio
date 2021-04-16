@@ -11,6 +11,7 @@
     <Authors>Ikechukwu Konweh</Authors>
     <Company>Ikechukwu Konweh</Company>
     <Description>Resony server abstractions</Description>
+    <Version>0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
