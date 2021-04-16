@@ -3,6 +3,14 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Resony.Server</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ikebig/resony</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ikebig/resony</RepositoryUrl>
+    <Authors>Ikechukwu Konweh</Authors>
+    <Company>Ikechukwu Konweh</Company>
+    <Description>Resony server abstractions</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -9,6 +9,8 @@
     <Company>Ikechukwu Konweh</Company>
     <Description>Resony audio server</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>0.0.1</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <ItemGroup>

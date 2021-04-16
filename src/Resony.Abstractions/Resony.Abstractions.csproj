@@ -3,6 +3,14 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Resony</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ikebig/resony</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ikebig/resony</RepositoryUrl>
+    <Version>0.0.1</Version>
+    <Authors>Ikechukwu Konweh</Authors>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Description>Resony abstractions</Description>
   </PropertyGroup>
 
   <ItemGroup>

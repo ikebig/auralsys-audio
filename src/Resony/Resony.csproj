@@ -8,14 +8,12 @@
     <RepositoryUrl>https://github.com/ikebig/resony</RepositoryUrl>
     <PackageProjectUrl>https://github.com/ikebig/resony</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>0.0.1</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Resony.Abstractions\Resony.Abstractions.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ManagedBass\" />
   </ItemGroup>
 
 </Project>

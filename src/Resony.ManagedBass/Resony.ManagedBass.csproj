@@ -8,6 +8,8 @@
     <PackageProjectUrl>https://github.com/ikebig/resony</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ikebig/resony</RepositoryUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>0.0.1</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <ItemGroup>
