@@ -2,20 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Authors>Ikechukwu Konweh</Authors>
-    <Description>Contains resony core audio library implementations</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/ikebig/resony</RepositoryUrl>
     <PackageProjectUrl>https://github.com/ikebig/resony</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ikebig/resony</RepositoryUrl>
+    <Authors>Ikechukwu Konweh</Authors>
+    <Company>Ikechukwu Konweh</Company>
+    <Description>Resony audio server</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <ProjectReference Include="..\Resony.Abstractions\Resony.Abstractions.csproj" />
+    <PackageReference Include="ncrontab" Version="3.3.1" />
   </ItemGroup>
-
+  
   <ItemGroup>
-    <Folder Include="ManagedBass\" />
+    <ProjectReference Include="..\Resony.Server.Abstractions\Resony.Server.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

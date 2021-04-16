@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Resony
+namespace Resony.ManagedBass
 {
     internal interface IBassProxy : IDisposable
     {

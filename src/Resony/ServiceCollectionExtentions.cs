@@ -1,20 +1,29 @@
-﻿using Resony;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 
-namespace Auralsys.Audio
+namespace Resony
 {
     public static class ServiceCollectionExtentions
     {
-        public static IServiceCollection AddResony(this IServiceCollection services)
-        {
-            services.AddResonyCore();
+        public static IServiceCollection AddResony(
+           this IServiceCollection services,
+           Action<ResonyOptions>? configure = default) =>
+           services
+               .AddResonyCore(configure);
 
-            services.AddSingleton<IBassProxy, BassProxy>();
-            services.AddSingleton<IDeviceManager, DeviceManager>();
-            services.AddSingleton<IRecorderFactory, RecorderFactory>();
-            services.AddSingleton<IWaveFileUtility, WaveFileUtility>();
+        private static IServiceCollection AddResonyCore(this IServiceCollection services,
+            Action<ResonyOptions>? configure = default)
+        {
+            var options = new ResonyOptions(services);
+            configure?.Invoke(options);
+
+            services
+                .AddSingleton(options)
+                .AddSingleton<IAudioSamplesConverter, AudioSamplesConverter>();
 
             return services;
         }
+
+        
     }
 }

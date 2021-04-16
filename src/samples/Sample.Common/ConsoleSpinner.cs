@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Sample.Recording
+namespace Sample
 {
-    internal class ConsoleSpinner
+    public class ConsoleSpinner
     {
         private int _currentAnimationFrame;
 

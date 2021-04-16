@@ -1,6 +1,7 @@
-﻿using Auralsys.Audio;
-using LightInject.Microsoft.DependencyInjection;
+﻿using LightInject.Microsoft.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using Resony;
+using Resony.ManagedBass;
 using System;
 
 namespace Sample.Recording
@@ -11,7 +12,13 @@ namespace Sample.Recording
         private static IServiceProvider Configure()
         {
             var services = new ServiceCollection();
-            services.AddResony();
+
+            services.AddResony(configure =>
+            {
+                configure.UseManagedBassDeviceManager();
+                configure.UseManagedBassRecorderFactory();
+                configure.UseManagedBassWaveFileUtility();
+            });
 
             var provider = services.CreateLightInjectServiceProvider();
             return provider;

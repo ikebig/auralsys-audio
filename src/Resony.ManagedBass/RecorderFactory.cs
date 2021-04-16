@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Resony
+namespace Resony.ManagedBass
 {
     public class RecorderFactory : IRecorderFactory
     {

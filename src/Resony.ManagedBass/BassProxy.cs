@@ -1,4 +1,5 @@
-﻿using ManagedBass;
+﻿using Resony.Utils;
+using ManagedBass;
 using ManagedBass.Mix;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 
 
-namespace Resony
+namespace Resony.ManagedBass
 {
     internal class BassProxy : IBassProxy
     {
@@ -27,15 +28,14 @@ namespace Resony
         {
             for (int i = 0; Bass.RecordGetDeviceInfo(i, out var info); ++i)
             {
-                if (!info.IsLoopback)
+                if (info.IsEnabled && !info.IsLoopback)
                     yield return new Device(i, info.Name);
-            }
-                
+            }                
         }
 
         public Device GetInputDevice(int index)
         {
-            if (!Bass.RecordGetDeviceInfo(index, out var info) || info.IsLoopback)
+            if (!Bass.RecordGetDeviceInfo(index, out var info) || !info.IsEnabled || info.IsLoopback)
             {
                 return null;
             }
@@ -48,7 +48,7 @@ namespace Resony
             Device device = null;
             for (int i = 0; Bass.RecordGetDeviceInfo(i, out var info); ++i)
             {
-                if (!info.IsLoopback && info.Name == name)
+                if (info.IsEnabled && !info.IsLoopback && info.Name == name)
                 {
                     device = new Device(i, info.Name);
                     break;
@@ -66,7 +66,7 @@ namespace Resony
 
         public Device GetOutputDevice(int index)
         {
-            if(!Bass.GetDeviceInfo(index, out var info))
+            if(!Bass.GetDeviceInfo(index, out var info) || !info.IsEnabled)
             {
                 return null;
             }            
@@ -79,7 +79,7 @@ namespace Resony
             Device device = null;
             for (int i = 0; Bass.GetDeviceInfo(i, out var info); ++i)
             {
-                if (info.Name == name)
+                if (info.IsEnabled && info.Name == name)
                 {
                     device = new Device(i, info.Name);
                     break;
@@ -149,7 +149,6 @@ namespace Resony
         }
 
         #endregion
-
 
         #region WaveWriter
 
@@ -221,7 +220,7 @@ namespace Resony
             PlaybackState playbackState = Bass.ChannelIsActive(handle);
             if (playbackState != PlaybackState.Playing && playbackState != PlaybackState.Stalled)
             {
-                return RecorderState.Stoped;
+                return RecorderState.Stopped;
             }
 
             return RecorderState.Playing;
@@ -246,14 +245,14 @@ namespace Resony
                 lock (_lock)
                 {
                     if (_bassDll == IntPtr.Zero)
-                    {
-                        string bassNativeDirectory = BassHelper.GetBassRuntimeDirectory();
-                        if (!Directory.Exists(bassNativeDirectory) || !Directory.GetFiles(bassNativeDirectory, $"*{DllName}*", SearchOption.TopDirectoryOnly).Any())
+                    {                        
+                        string nativeBassDirectory = Path.Combine(IOHelper.GetOSPlatformRuntimeDirectory(),"Bass");
+                        if (!Directory.Exists(nativeBassDirectory) || !Directory.GetFiles(nativeBassDirectory, $"*{DllName}*", SearchOption.TopDirectoryOnly).Any())
                         {
                             return false;
                         }
 
-                        string bassLibraryPath = Path.Combine(BassHelper.GetBassRuntimeDirectory(), DllName);
+                        string bassLibraryPath = Path.Combine(nativeBassDirectory, DllName);
                         _bassDll = NativeLibrary.Load(bassLibraryPath);
                         Bass.Init();
                     }
