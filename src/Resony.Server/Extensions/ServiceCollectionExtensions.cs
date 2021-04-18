@@ -7,7 +7,7 @@ namespace Resony.Server
     public static class ServiceCollectionExtensions
     {
         public static ResonyOptions UseResonyServer(this ResonyOptions resonyOptions, 
-            Action<ResonyServerOptions>? configure = default)
+            Action<ResonyServerOptions> configure = default)
         {
             var options = new ResonyServerOptions(resonyOptions);
             configure?.Invoke(options);

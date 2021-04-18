@@ -41,7 +41,7 @@ namespace Resony.Server
 
         #region LoggerFactory
 
-        public ResonyServerOptions UseLoggerFactory(ILoggerFactory? loggerFactory)
+        public ResonyServerOptions UseLoggerFactory(ILoggerFactory loggerFactory)
         {
             if (loggerFactory != null)
             {

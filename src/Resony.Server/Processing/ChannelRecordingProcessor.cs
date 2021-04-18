@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Resony.Server.Processing
 {
@@ -13,6 +14,7 @@ namespace Resony.Server.Processing
     {
         private readonly IAudioSourceRuntimeManager _audioSourceRuntimeManager;
         private readonly ResonyServerOptions _serverOptions;
+        private readonly ILogger _logger;
 
         #region Ctor
         public ChannelRecordingProcessor(IServiceProvider serviceProvider)
@@ -20,6 +22,7 @@ namespace Resony.Server.Processing
         {
             _audioSourceRuntimeManager = serviceProvider.GetService<IAudioSourceRuntimeManager>();
             _serverOptions = serviceProvider.GetService<ResonyServerOptions>();
+            _logger = serviceProvider.GetResonyServerLoggerFactory().CreateLogger<ChannelRecordingProcessor>();
         }
 
         #endregion
@@ -59,7 +62,7 @@ namespace Resony.Server.Processing
                     using (var cts = CancellationTokenSource.CreateLinkedTokenSource(new CancellationTokenSource(nextScheduledUtc - DateTime.UtcNow).Token, context.StoppingToken))
                     {                      
                         var task = RecordSchedule(info, currentScheduleUtc, duration, cts.Token);
-                        Console.WriteLine($"DURATION: {duration} | Schedule: {currentScheduleUtc} | Time: {DateTime.UtcNow}");
+                        _logger.LogDebug($"Duration: {duration} | Schedule: {currentScheduleUtc} | Time: {DateTime.UtcNow}");
 
                         try
                         {
@@ -67,7 +70,7 @@ namespace Resony.Server.Processing
                         }
                         catch (TaskCanceledException ex)
                         {
-                            //_logger.LogDebug($"[{_clock.UtcNow}] [{this}] Recording period wait task was cancelled by the supplied cancellation token.", ex);
+                            _logger.LogWarning($"Recording period wait task was cancelled by the supplied cancellation token.", ex);
                         }
                     }
 
@@ -76,7 +79,7 @@ namespace Resony.Server.Processing
             }
             catch (Exception ex)
             {
-                //_logger.LogError($"[{_clock.UtcNow}] [{this}] {ex.Message}", ex);
+                _logger.LogError(ex.Message, ex);
             }
         }
 

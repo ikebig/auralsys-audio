@@ -6,9 +6,8 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="LightInject.Microsoft.DependencyInjection" Version="3.3.4" />
+    <PackageReference Include="LightInject.Microsoft.DependencyInjection" Version="3.3.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
   </ItemGroup>
 
@@ -22,7 +21,13 @@
     <None Update="runtimes\win-x64\Bass\bass.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="runtimes\win-x64\Bass\bassenc.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="runtimes\win-x86\Bass\bass.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="runtimes\win-x86\Bass\bassenc.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
